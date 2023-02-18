@@ -39,6 +39,10 @@ export default {
     }),
   },
   mounted() {
+    this.setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
     // Begin spawning of enemies
     this.spawnInterval = setInterval(
       this.spawnEnemies,
@@ -60,6 +64,7 @@ export default {
       updateEnemies: "globalEnemies/updateEnemies",
     }),
     ...mapMutations({
+      setWindowSize: "setWindowSize",
       spawnEnemies: "globalEnemies/spawnEnemies",
     }),
 

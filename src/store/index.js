@@ -9,10 +9,23 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    game: {
+      
+    },
+    window: {
+      dimensions: {
+        width: 1920,
+        height: 1080
+      }
+    }
   },
   getters: {
+    getWindowSize: state => state.window.dimensions
   },
   mutations: {
+    setWindowSize(state, dimensions){
+      state.window.dimensions = dimensions
+    }
   },
   actions: {
   },

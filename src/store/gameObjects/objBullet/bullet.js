@@ -89,8 +89,9 @@ const actions = {
       }
     });
   },
-  bulletIsOutOfBounds(bullet) {
-    return bullet.x < 0 || bullet.x > 1920 || bullet.y < 0 || bullet.y > 1080;
+  bulletIsOutOfBounds({ rootGetters }, bullet) {
+    const { width, height } = rootGetters.getWindowSize
+    return bullet.x < 0 || bullet.x > width || bullet.y < 0 || bullet.y > height;
   },
 };
 

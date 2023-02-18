@@ -9,7 +9,7 @@ const state = () => ({
     enemyTypes: [
       {
         type: "blob",
-        health: 1,
+        health: 2,
         speed: 1.75,
         // sprite: blobPath,
       },
@@ -41,12 +41,12 @@ const state = () => ({
         }
       });
     },
-    damageEnemy({state, commit, rootGetters }, enemyId) {
+    async damageEnemy({state, commit, rootGetters }, enemyId) {
       const enemy = state.enemies.find((enemy) => enemy.id === enemyId);
       if(!enemy){ return }
       enemy.health -= rootGetters['objPlayer/getPlayer'].stats.damage;
       if (enemy.health < 1) {
-        commit('destroyEnemy', enemyId);
+        await commit('destroyEnemy', enemyId);
       }
     },
   }

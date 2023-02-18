@@ -1,6 +1,6 @@
 <template>
     <div 
-    :class="['enemy', enemy.type, enemy.vx < 0 ? 'left' : '']" 
+    :class="['enemy', enemy.type, enemy.vx < 0 ? 'left' : '', {'lost-health': lostHealth }]" 
     :style="enemyStyles + ' background-image: url(' + require('@/assets/sprites/enemies/blob/Blob1-128.png') + ')'">
   </div>
 </template>
@@ -14,6 +14,22 @@ export default {
       default: null,
     },
   },
+  data() {
+    return {
+      lostHealth: false,
+    };
+  },
+  watch: {
+    enemyHealth() {
+      this.lostHealth = true;
+      setTimeout(() => {
+        this.lostHealth = false;
+      }, 60);
+    },
+  },
+  destroyed() {
+    console.log(this.enemy, "was destroyed!");
+  },
   computed: {
     ...mapGetters({
       enemies: "globalEnemies/getEnemies",
@@ -21,11 +37,16 @@ export default {
     enemy() {
       return this.enemies.find((enemy) => enemy.id === this.id);
     },
+    enemyHealth() {
+      return this.enemy.health;
+    },
     enemyStyles() {
       return `
       left: ${this.enemy.x}px;
       top: ${this.enemy.y}px;
-      
+       transition-property: filter;
+        transition-duration: 60ms;
+        transition-timing-function: ease-in;
       `;
     },
   },
@@ -43,5 +64,9 @@ export default {
 }
 .left {
   transform: translate(-50%, -50%) scale(-1, 1);
+}
+.lost-health {
+  transition-duration: 0ms !important;
+  filter: brightness(250%) !important;
 }
 </style>

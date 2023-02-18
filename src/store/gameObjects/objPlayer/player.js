@@ -1,4 +1,3 @@
-// initial state
 const state = () => ({
     player: {
       position: {
@@ -10,7 +9,8 @@ const state = () => ({
         height: Math.round(199 * 0.5)
       },
       stats: {
-        damage: 1
+        damage: 1,
+        projectileSpeed: 7
       }
     }
   })
@@ -37,5 +37,5 @@ const state = () => ({
     state,
     getters,
     actions,
-    mutations
+    mutations,
   }

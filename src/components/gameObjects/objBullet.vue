@@ -1,17 +1,27 @@
 <template>
-  <div class="bullet" :style="{ left: x + 'px', top: y + 'px' }">83</div>
+  <div class="bullet" :style="`
+  left: ${this.bullet.x}px;
+  top: ${this.bullet.y}px; 
+  background-image: url('${require('@/assets/sprites/projectiles/fireball.png')}')`"
+  />
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   props: {
-    x: {
-      type: Number,
+    bulletId: {
+      type: String,
       default: null,
     },
-    y: {
-      type: Number,
-      default: null,
+  },
+  computed: {
+    ...mapGetters({
+      bullets: "objBullet/getBullets",
+    }),
+    bullet() {
+      return this.bullets.find((bullet) => bullet.id === this.bulletId);
     },
   },
 };
@@ -20,6 +30,12 @@ export default {
 <style>
 .bullet {
   position: absolute;
+  width: 20px;
+  height: 20px;
   transform: translate(-50%, -50%);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 50%;
 }
 </style>

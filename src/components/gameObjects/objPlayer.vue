@@ -24,11 +24,10 @@ export default {
   },
   data() {
     return {
-      playerX: 0, // The x-coordinate of the player's position
-      playerY: 0, // The y-coordinate of the player's position
+      playerX: 250, // The x-coordinate of the player's position
+      playerY: 250, // The y-coordinate of the player's position
       frame: 0, // The current frame of the animation
       intervalId: null, // The ID of the interval that updates the animation
-      playerSpeed: 6,
       keysPressed: {},
       playerWalkDirection: "right",
     };
@@ -70,20 +69,20 @@ export default {
     updatePlayerPosition() {
       // Move the player when the user presses the arrow keys
       if (this.keysPressed["w"]) {
-        this.playerY -= this.playerSpeed;
+        this.playerY -= this.player.stats.movementSpeed;
         this.startAnimation();
       }
       if (this.keysPressed["a"]) {
-        this.playerX -= this.playerSpeed;
+        this.playerX -= this.player.stats.movementSpeed;
         this.playerWalkDirection = "left";
         this.startAnimation();
       }
       if (this.keysPressed["s"]) {
-        this.playerY += this.playerSpeed;
+        this.playerY += this.player.stats.movementSpeed;
         this.startAnimation();
       }
       if (this.keysPressed["d"]) {
-        this.playerX += this.playerSpeed;
+        this.playerX += this.player.stats.movementSpeed;
         this.playerWalkDirection = "right";
         this.startAnimation();
       } else if (

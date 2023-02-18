@@ -10,7 +10,7 @@ const state = () => ({
       {
         type: "blob",
         health: 1,
-        speed: 1.75
+        speed: 1.75,
         // sprite: blobPath,
       },
     ],
@@ -35,6 +35,7 @@ const state = () => ({
         enemy.vy = (dy / distance) * enemy.speed;
         enemy.x += enemy.vx;
         enemy.y += enemy.vy;
+
         if (enemy.health < 1) {
           this.destroyEnemy(enemy.id);
         }

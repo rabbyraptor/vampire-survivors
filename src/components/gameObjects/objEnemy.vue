@@ -45,7 +45,7 @@ export default {
       left: ${this.enemy.x}px;
       top: ${this.enemy.y}px;
        transition-property: filter;
-        transition-duration: 30ms;
+        transition-duration: 0ms;
         transition-timing-function: ease-in;
       `;
     },

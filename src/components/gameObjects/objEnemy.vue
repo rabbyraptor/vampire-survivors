@@ -24,7 +24,7 @@ export default {
       this.lostHealth = true;
       setTimeout(() => {
         this.lostHealth = false;
-      }, 60);
+      }, 30);
     },
   },
   destroyed() {
@@ -45,7 +45,7 @@ export default {
       left: ${this.enemy.x}px;
       top: ${this.enemy.y}px;
        transition-property: filter;
-        transition-duration: 60ms;
+        transition-duration: 30ms;
         transition-timing-function: ease-in;
       `;
     },

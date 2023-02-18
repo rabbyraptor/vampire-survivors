@@ -1,5 +1,7 @@
 <template>
-    <div :class="['enemy', enemy.type]" :style="enemyStyles + ' background-image: url(' + require('@/assets/sprites/enemies/blob/Blob1-128.png') + ')'">
+    <div 
+    :class="['enemy', enemy.type, enemy.vx < 0 ? 'left' : '']" 
+    :style="enemyStyles + ' background-image: url(' + require('@/assets/sprites/enemies/blob/Blob1-128.png') + ')'">
   </div>
 </template>
 
@@ -38,5 +40,8 @@ export default {
   width: 40px;
   height: 40px;
   transform: translate(-50%, -50%);
+}
+.left {
+  transform: translate(-50%, -50%) scale(-1, 1);
 }
 </style>

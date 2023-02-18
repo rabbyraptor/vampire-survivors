@@ -2,7 +2,7 @@
   <div class="bullet" :style="`
   left: ${this.bullet.x}px;
   top: ${this.bullet.y}px; 
-  background-image: url('${require('@/assets/sprites/projectiles/fireball.png')}')`"
+  background-image: url('${require('@/assets/sprites/projectiles/fireball.png')}');`"
   />
 </template>
 

@@ -16,9 +16,9 @@
       "
     >
     </div>
-    <div v-if="enemyHealth < 1" class="cloud" :style="`left: ${enemy.x}px; top: ${enemy.y}px`"></div>
-    <p v-if="enemyHealth < 1" class="deathcry" :style="`left: ${enemy.x}px; top: ${enemy.y}px`">{{  }}</p>
-    <div v-if="enemyHealth < 1" class="xp-animation" :style="`left: ${enemy.x}px; top: ${enemy.y}px`">
+    <div v-show="enemyHealth < 1" class="cloud" :style="`left: ${enemy.x}px; top: ${enemy.y}px`"></div>
+    <p v-show="enemyHealth < 1" class="deathcry" :style="`left: ${enemy.x}px; top: ${enemy.y}px`">{{  }}</p>
+    <div v-show="enemyHealth < 1" class="xp-animation" :style="`left: ${enemy.x}px; top: ${enemy.y}px`">
         <p style="width: max-content">10 XP</p>
     </div>
     </div>

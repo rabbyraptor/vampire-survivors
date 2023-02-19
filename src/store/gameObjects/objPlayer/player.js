@@ -11,7 +11,8 @@ const state = () => ({
       stats: {
         movementSpeed: 6,
         damage: 1,
-        projectileSpeed: 7
+        projectileSpeed: 7,
+        shootingSpeed: 1200,
       }
     }
   })

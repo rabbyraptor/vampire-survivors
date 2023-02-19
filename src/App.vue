@@ -20,5 +20,7 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  z-index: 0;
+  font-family: sans-serif;
 }
 </style>

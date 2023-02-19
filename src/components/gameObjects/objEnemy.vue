@@ -118,7 +118,7 @@ export default {
   background-image: url("~@/assets/sprites/effects/cloud1.png");
   background-position: center;
   background-size: contain;
-  animation: rotate 0.5s linear infinite;
+  animation: rotate 0.5s linear;
 }
 @keyframes rotate {
   to {

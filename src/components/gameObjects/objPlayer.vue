@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   mounted() {
@@ -15,6 +15,7 @@ export default {
     // Set up a listener for the 'keydown' event to detect when the player moves
     window.addEventListener("keydown", this.handleKeyDown);
     window.addEventListener("keyup", this.handleKeyUp);
+    this.startShooting();
   },
   updated() {
     // Update the background position of the player element to show the next frame of the animation
@@ -57,6 +58,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      addBullet: "objBullet/addBullet",
+    }),
     ...mapMutations({
       setPlayerPosition: "objPlayer/setPosition",
     }),
@@ -94,6 +98,10 @@ export default {
         this.stopAnimation();
       }
     },
+    startShooting() {
+      // const { x, y } = this.player.position;
+      setInterval(this.addBullet, this.player.stats.shootingSpeed);
+    },
     startAnimation() {
       if (this.intervalId) {
         return;
@@ -120,6 +128,7 @@ export default {
 <style scoped>
 .player {
   position: absolute;
+  z-index: 1;
   /* transform: translate(-50%, -50%); */
   background-color: transparent;
   background-image: url("~@/assets/sprites/man_walking/man_walking_trans.png");

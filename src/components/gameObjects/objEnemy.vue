@@ -17,7 +17,7 @@
     >
     </div>
     <div v-if="enemyHealth < 1" class="cloud" :style="`left: ${enemy.x}px; top: ${enemy.y}px`"></div>
-    <p v-if="enemyHealth < 1" class="deathcry" :style="`left: ${enemy.x}px; top: ${enemy.y}px`">{{ getRandomDeathCry }}</p>
+    <p v-if="enemyHealth < 1" class="deathcry" :style="`left: ${enemy.x}px; top: ${enemy.y}px`">{{  }}</p>
     <div v-if="enemyHealth < 1" class="xp-animation" :style="`left: ${enemy.x}px; top: ${enemy.y}px`">
         <p style="width: max-content">10 XP</p>
     </div>
@@ -122,7 +122,8 @@ export default {
 }
 @keyframes rotate {
   to {
-    transform: translate(-50%, -50%) rotate(90deg);
+    transform: translate(-50%, -50%) rotate(35deg) scale(1.5);
+    opacity: 0;
   }
 }
 .deathcry {

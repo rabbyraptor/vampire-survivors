@@ -16,7 +16,8 @@
       "
     >
     </div>
-    <p v-show="enemyHealth < 1" class="deathcry" :style="`left: ${enemy.x}px; top: ${enemy.y}px`">{{ getRandomDeathCry }}</p>
+    <div v-if="enemyHealth < 1" class="cloud" :style="`left: ${enemy.x}px; top: ${enemy.y}px`"></div>
+    <p v-if="enemyHealth < 1" class="deathcry" :style="`left: ${enemy.x}px; top: ${enemy.y}px`">{{ getRandomDeathCry }}</p>
     <div v-if="enemyHealth < 1" class="xp-animation" :style="`left: ${enemy.x}px; top: ${enemy.y}px`">
         <p style="width: max-content">10 XP</p>
     </div>
@@ -80,6 +81,8 @@ export default {
       return `
       top: -20px;
       left: -20px;
+      width: ${this.enemy.dimensions.width}px;
+      height: ${this.enemy.dimensions.height}px;
       transform: translate(${this.enemy.x}px, ${this.enemy.y}px) ${
         this.enemy.x > this.player.position.x ? "scale(-1, 1)" : ""
       };
@@ -99,14 +102,28 @@ export default {
   z-index: 2;
   background-position: center;
   background-size: contain;
-  width: 40px;
-  height: 40px;
   transition: transform 0.5s ease-out;
   transform: translate(-50%, -50%);
 }
 .lost-health {
   transition-duration: 0ms !important;
   filter: brightness(250%) !important;
+}
+.cloud {
+  position: absolute;
+  z-index: -100;
+  width: 40px;
+  height: 40px;
+  transform: translate(-50%, -50%);
+  background-image: url("~@/assets/sprites/effects/cloud1.png");
+  background-position: center;
+  background-size: contain;
+  animation: rotate 0.5s linear infinite;
+}
+@keyframes rotate {
+  to {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
 }
 .deathcry {
   position: absolute;

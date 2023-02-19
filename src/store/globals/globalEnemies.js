@@ -12,6 +12,10 @@ const state = () => ({
       health: 2,
       speed: 100, // In pixels per second
       damage: 1,
+      dimensions: {
+        width: 40,
+        height: 40
+      }
       // sprite: blobPath,
     },
   ],
@@ -36,11 +40,29 @@ const actions = {
     if (state.enemies.length < state.settings.maxEnemies) {
       const randomEnemy =
         state.enemyTypes[Math.floor(Math.random() * state.enemyTypes.length)];
+
+    // Randomly select which side of the screen to spawn the enemy on
+    const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+    let x, y;
+    if (side === 0) { // Spawn on top edge
+      x = Math.floor(Math.random() * window.innerWidth);
+      y = -randomEnemy.dimensions.height;
+    } else if (side === 1) { // Spawn on right edge
+      x = window.innerWidth + randomEnemy.dimensions.width;
+      y = Math.floor(Math.random() * window.innerHeight);
+    } else if (side === 2) { // Spawn on bottom edge
+      x = Math.floor(Math.random() * window.innerWidth);
+      y = window.innerHeight + randomEnemy.dimensions.height;
+    } else { // Spawn on left edge
+      x = -randomEnemy.dimensions.width;
+      y = Math.floor(Math.random() * window.innerHeight);
+    }
+
       const enemy = {
         id: state.enemyId++,
         type: randomEnemy.type,
-        x: Math.floor(Math.random() * window.innerWidth),
-        y: Math.floor(Math.random() * window.innerHeight),
+        x,
+        y,
         vx: 0,
         vy: 0,
         health: randomEnemy.health,

@@ -13,6 +13,11 @@ const getters = {
 const actions = {
   // === ADDING ===
   addBullet({ commit, getters, rootGetters }) {
+    const gameIsPaused = rootGetters["game/getGameIsPaused"];
+    if(gameIsPaused){
+      return
+    }
+
     const player = rootGetters["objPlayer/getPlayer"];
 
     if (!getters.getTarget) {
@@ -39,8 +44,13 @@ const actions = {
   },
 
   // === UPDATING ===
+  // A part of global update()
   updateBullets({ commit, dispatch, getters, rootGetters }) {
-    const player = rootGetters["objPlayer/getPlayer"];
+    const gameIsPaused = rootGetters["game/getGameIsPaused"];
+    if(gameIsPaused){
+      return
+    }
+     const player = rootGetters["objPlayer/getPlayer"];
     const enemies = rootGetters["globalEnemies/getEnemies"];
     const bullets = getters.getBullets;
 

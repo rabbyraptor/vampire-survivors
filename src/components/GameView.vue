@@ -1,5 +1,8 @@
 <template>
   <div class="game-wrapper">
+    <div class="ui">
+      <h1 class="fps-counter">{{ fpsAverage }} fps</h1>
+      </div>
     <div class="game" ref="game">
       <!-- <div class="player" :style="{ left: playerPosition.x + 'px', top: playerPosition.y + 'px' }"></div> -->
       <ObjPlayer />
@@ -7,7 +10,7 @@
       v-for="(bullet) in bullets"
       :key="bullet.id"
       :bulletId="bullet.id"
-    />
+      />
       <ObjEnemy v-for="enemy in enemies" :key="enemy.id" :id="enemy.id" />
     </div>
   </div>
@@ -23,14 +26,16 @@ export default {
   components: { ObjPlayer, ObjBullet, ObjEnemy },
   data() {
     return {
-      playerShootSpeed: 2000,
-      fps: 1 / 60,
       bulletSpeed: 8,
       enemySpawnInterval: null,
+      lastTimeToRender: 0,
+      fpsAverage: 0,
+      fpsHistory: [],
     };
   },
   computed: {
     ...mapGetters({
+      gameIsPaused: "game/getGameIsPaused",
       player: "objPlayer/getPlayer",
       bullets: "objBullet/getBullets",
       enemies: "globalEnemies/getEnemies",
@@ -48,10 +53,19 @@ export default {
       this.spawnEnemies,
       this.enemySettings.spawnSpeed
     );
+    this.lastTimeToRender = performance.now();
+    window.requestAnimationFrame(this.updateGame);
+    window.addEventListener("focus", () => {
+      // Unpause the game
+      this.setGamePauseState(false);
+    });
+    window.addEventListener("blur", () => {
+      // Pause the game
+      window.cancelAnimationFrame(this.updateGame);
+      this.setGamePauseState(true);
+    });
 
-    setInterval(this.updateGame, this.fps);
-    //setInterval(this.startShooting, this.playerShootSpeed);
-    this.startShooting();
+    // document.addEventListener("blur", this.handleVisibilityChange);
     this.$refs.game.focus();
   },
   beforeUnmount() {
@@ -59,30 +73,48 @@ export default {
   },
   methods: {
     ...mapActions({
-      addBullet: "objBullet/addBullet",
       updateBullets: "objBullet/updateBullets",
+      spawnEnemies: "globalEnemies/spawnEnemies",
       updateEnemies: "globalEnemies/updateEnemies",
     }),
     ...mapMutations({
+      setGamePauseState: "game/setGamePauseState",
       setWindowSize: "setWindowSize",
-      spawnEnemies: "globalEnemies/spawnEnemies",
     }),
-
-    // spawnEnemy() {},
-    startShooting() {
-      // const { x, y } = this.player.position;
-      setInterval(this.addBullet, this.playerShootSpeed);
-    },
     updateGame() {
-      if (this.gameIsPaused()) {
-        return;
-      }
-      this.updateEnemies();
-      this.updateBullets(this.enemies);
-    },
+      const timeToRender = performance.now();
+      const timeSinceLastRender = timeToRender - this.lastTimeToRender;
+      /* if (elapsed < 16.7) {
+        console.error(elapsed);
 
-    gameIsPaused() {
-      return !document.hasFocus();
+        // skip frame if it's been less than 16.7 ms (60 FPS)
+        return;
+      } */
+      this.lastTimeToRender = timeToRender;
+
+      // UPDATE FRAMES
+      this.updateEnemies({ timeSinceLastRender });
+      this.updateBullets({ timeSinceLastRender });
+
+      // CALCULATE THE CURRENT FPS
+      this.calculateFps(timeSinceLastRender);
+
+      // CALL THE NEXT FRAME RENDER
+      window.requestAnimationFrame(this.updateGame);
+    },
+    calculateFps(timeSinceLastRender) {
+      // Calculate fps for current frame
+      const fps = Math.round(1000 / timeSinceLastRender);
+      this.fpsHistory.push(fps);
+
+      if (this.fpsHistory.length > 30) {
+        // Remove the oldest fps value in the array
+        this.fpsHistory.shift();
+      }
+      // Calculate the sum of the fps values
+      const sum = this.fpsHistory.reduce((total, fps) => total + fps, 0);
+      // Calculate average fps by dividing the sum by the length
+      this.fpsAverage = Math.round(sum / this.fpsHistory.length);
     },
   },
 };
@@ -107,8 +139,20 @@ export default {
   background-size: 10%;
   filter: brightness(75%) grayscale(20%);
 }
+.ui {
+  position: relative;
+}
 .game {
   position: relative;
+}
+.fps-counter {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-weight: normal;
+  font-size: 15px;
+  color: #333;
+  padding: 2px 4px;
 }
 /* .vampire {
   background-color: red;

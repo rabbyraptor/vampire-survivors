@@ -69,6 +69,7 @@ const actions = {
 
       // Check for collisions with enemies
       enemies.forEach((enemy) => {
+        if(enemy.health < 1) { return }
         const distance = Math.sqrt(
           (bullet.x - enemy.x) ** 2 + (bullet.y - enemy.y) ** 2
         );

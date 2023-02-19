@@ -118,9 +118,12 @@ export default {
   background-image: url("~@/assets/sprites/effects/cloud1.png");
   background-position: center;
   background-size: contain;
-  animation: rotate 0.5s linear;
+  animation: rotate 0.5s linear forwards;
 }
 @keyframes rotate {
+  from {
+    opacity: 1;
+  }
   to {
     transform: translate(-50%, -50%) rotate(35deg) scale(1.5);
     opacity: 0;

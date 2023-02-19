@@ -150,10 +150,7 @@ export default {
   font-weight: bold;
   font-size: 10px;
   color: white;
-  animation-name: bottom-to-top;
-  animation-duration: 0.5s;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-out;
+  animation: bottom-to-top 0.5s forwards ease-out;
   mix-blend-mode: soft-light;
 }
 @keyframes bottom-to-top {

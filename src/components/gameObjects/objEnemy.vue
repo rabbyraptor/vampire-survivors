@@ -4,7 +4,6 @@
       :class="[
         'enemy',
         enemy.type,
-        enemy.vx < 0 ? 'left' : '',
         { 'lost-health': lostHealth },
       ]"
       :style="
@@ -47,10 +46,11 @@ export default {
     },
   },
   destroyed() {
-    console.log(this.enemy, "was destroyed!");
+    // console.log(this.enemy, "was destroyed!");
   },
   computed: {
     ...mapGetters({
+      player: "objPlayer/getPlayer",
       enemies: "globalEnemies/getEnemies",
     }),
     getRandomDeathCry() {
@@ -80,7 +80,9 @@ export default {
       return `
       top: -20px;
       left: -20px;
-      transform: translate(${this.enemy.x}px, ${this.enemy.y}px);
+      transform: translate(${this.enemy.x}px, ${this.enemy.y}px) ${
+        this.enemy.x > this.player.position.x ? "scale(-1, 1)" : ""
+      };
        transition-property: filter;
         transition-duration: 0ms;
         transition-timing-function: ease-in;
@@ -101,9 +103,6 @@ export default {
   height: 40px;
   transition: transform 0.5s ease-out;
   transform: translate(-50%, -50%);
-}
-.left {
-  transform: translate(-50%, -50%) scale(-1, 1);
 }
 .lost-health {
   transition-duration: 0ms !important;

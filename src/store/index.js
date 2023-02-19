@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import objPlayer from './gameObjects/objPlayer/player'
 import objBullet from './gameObjects/objBullet/bullet'
 import globalEnemies from './globals/globalEnemies'
+import game from './globals/game'
 
 // const debug = process.env.NODE_ENV !== 'production'
 Vue.use(Vuex)
@@ -32,7 +33,8 @@ export default new Vuex.Store({
   modules: {
     objPlayer,
     objBullet,
-    globalEnemies
+    globalEnemies, 
+    game
   },
   // strict: debug,
   // plugins: debug ? [Vuex.createLogger()] : []

@@ -140,7 +140,7 @@ export default {
   opacity: 0.5;
   text-shadow: 1px 1px 1px rgba(80, 80, 80, 0.7);
   /* Start the shake animation and make the animation last for 0.5 seconds */
-  animation: shake 0.5s;
+  animation: shake 0.5s forwards;
 }
 .xp-animation {
   position: absolute;
@@ -152,6 +152,7 @@ export default {
   color: white;
   animation-name: bottom-to-top;
   animation-duration: 0.5s;
+  animation-iteration-count: 1;
   animation-timing-function: ease-out;
   mix-blend-mode: soft-light;
 }

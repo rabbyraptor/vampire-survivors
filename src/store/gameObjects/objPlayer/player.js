@@ -9,17 +9,19 @@ const state = () => ({
         height: Math.round(199 * 0.5)
       },
       stats: {
-        movementSpeed: 6,
-        damage: 1,
+        movementSpeed: 5.5,
+        damage: 5,
         projectileSpeed: 7,
         shootingSpeed: 1200,
+        penetrationsLeft: 1
       }
     }
   })
   
   // getters
   const getters = {
-    getPlayer: state => state.player
+    getPlayer: state => state.player,
+    getPlayerDamage: state => state.player.stats.damage
   }
   
   // actions

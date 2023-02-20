@@ -40,6 +40,7 @@ const actions = {
       xVelocity,
       yVelocity,
       visibility: true,
+      damage: player.stats.damage,
       penetrationsLeft: player.stats.penetrationsLeft
     };
     commit("shootBullet", bullet);
@@ -117,6 +118,7 @@ const mutations = {
     state.bullets.push(bullet);
   },
   destroyBullet(state, bullet) {
+    bullet.damage = 0
     bullet.visibility = false
     setTimeout(() => {
       state.bullets = state.bullets.filter(

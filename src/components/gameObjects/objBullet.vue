@@ -5,7 +5,7 @@
   top: ${this.bullet.y}px; 
   background-image: url('${require('@/assets/sprites/projectiles/steelball1.png')}');`"
   />
-  <div v-else class="damage-done" :style="`top: ${lastTrailPosition.y}; left: ${lastTrailPosition.x};`">{{ this.playerDamage }}</div>
+  <div v-else class="damage-done" :style="`top: ${lastTrailPosition.y}; left: ${lastTrailPosition.x};`">{{ this.bulletDamage }}</div>
   <canvas ref="bullet-trail" :class="!bullet.visibility ? 'fade-out' : ''" class="bullet-trail" :width="windowSize.width" :height="windowSize.height"></canvas>
 </div>
 </template>
@@ -20,6 +20,7 @@ export default {
       trailCtx: null,
       trailOpacity: 0.04,
       trailLength: null,
+      bulletDamage: null,
     };
   },
   props: {
@@ -32,6 +33,7 @@ export default {
     // Get the canvas context and call the render method
     this.trailCtx = this.$refs["bullet-trail"].getContext("2d");
     this.trailLength = this.bullet.target.distance;
+    this.bulletDamage = this.bullet.damage;
   },
   updated() {
     // Subtract from the trail opacity

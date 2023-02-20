@@ -3,7 +3,7 @@
     <div class="ui">
       <p class="fps-counter">fps {{ fpsAverage }}</p>
       <p class="fps-counter">movement speed {{ player.stats.movementSpeed }}</p>
-      <p class="fps-counter">attack speed {{ player.stats.shootingSpeed }}</p>
+      <p class="fps-counter">attack speed {{ player.stats.shootingSpeed / 1000 }} (shots/second)</p>
       </div>
     <div class="game" ref="game">
       <ObjPlayer />

@@ -1,12 +1,12 @@
 <template>
 <div>
-
-  <div class="bullet" :style="`
+  <div v-if="bullet.visibility" class="bullet" :style="`
   left: ${this.bullet.x}px;
   top: ${this.bullet.y}px; 
   background-image: url('${require('@/assets/sprites/projectiles/steelball1.png')}');`"
   />
-  <canvas ref="bullet-trail" class="bullet-trail" :width="windowSize.width" :height="windowSize.height"></canvas>
+  <div v-else class="damage-done" :style="`top: ${lastTrailPosition.y}; left: ${lastTrailPosition.x};`">{{ this.playerDamage }}</div>
+  <canvas ref="bullet-trail" :class="!bullet.visibility ? 'fade-out' : ''" class="bullet-trail" :width="windowSize.width" :height="windowSize.height"></canvas>
 </div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
     return {
       trailPositions: [],
       trailCtx: null,
-      trailOpacity: 0.05,
+      trailOpacity: 0.04,
       trailLength: null,
     };
   },
@@ -34,6 +34,12 @@ export default {
     this.trailLength = this.bullet.target.distance;
   },
   updated() {
+    // Subtract from the trail opacity
+    this.trailOpacity -= 0.01 / this.trailLength;
+    if (!this.bullet.visibility || this.trailLength < 20) {
+      return;
+    }
+
     // Clear the canvas
     this.trailCtx.clearRect(
       0,
@@ -41,9 +47,6 @@ export default {
       this.windowSize.width,
       this.windowSize.height
     );
-
-    // Subtract from the trail opacity
-    this.trailOpacity -= 0.01 / this.trailLength;
 
     // Add the current bullet position to the trail
     this.trailPositions.push({ x: this.bullet.x, y: this.bullet.y });
@@ -82,10 +85,18 @@ export default {
   computed: {
     ...mapGetters({
       bullets: "objBullet/getBullets",
+      playerDamage: "objPlayer/getPlayerDamage",
       windowSize: "getWindowSize",
     }),
     bullet() {
       return this.bullets.find((bullet) => bullet.id === this.bulletId);
+    },
+    lastTrailPosition() {
+      if (this.trailPositions.length < 1) {
+        return {};
+      }
+      const { x, y } = this.trailPositions[this.trailPositions.length - 1];
+      return { x, y };
     },
   },
 };
@@ -108,5 +119,33 @@ export default {
   z-index: 1;
   top: 0;
   left: 0;
+}
+.damage-done {
+  position: absolute;
+  z-index: 3;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 12px;
+  color: white;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  text-shadow: 1px 1px 0px rgba(30, 30, 30, 1);
+  animation: jump-out 0.2s forwards ease-out;
+}
+@keyframes jump-out {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    transform: translate(-50%, -225%);
+  }
+}
+.fade-out {
+  animation: fadeout 0.4s forwards ease-out;
+}
+@keyframes fadeout {
+  to {
+    opacity: 0;
+  }
 }
 </style>

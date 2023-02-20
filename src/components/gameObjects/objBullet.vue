@@ -18,8 +18,8 @@ export default {
     return {
       trailPositions: [],
       trailCtx: null,
-      trailOpacity: 0.35,
-      trailLength: 100,
+      trailOpacity: 0.05,
+      trailLength: null,
     };
   },
   props: {
@@ -31,6 +31,7 @@ export default {
   mounted() {
     // Get the canvas context and call the render method
     this.trailCtx = this.$refs["bullet-trail"].getContext("2d");
+    this.trailLength = this.bullet.target.distance;
   },
   updated() {
     // Clear the canvas
@@ -42,7 +43,7 @@ export default {
     );
 
     // Subtract from the trail opacity
-    this.trailOpacity -= 0.015;
+    this.trailOpacity -= 0.01 / this.trailLength;
 
     // Add the current bullet position to the trail
     this.trailPositions.push({ x: this.bullet.x, y: this.bullet.y });
@@ -65,13 +66,13 @@ export default {
         Math.pow(this.bullet.x - position.x, 2) +
           Math.pow(this.bullet.y - position.y, 2)
       );
-      const opacity = 1 - distanceFromBullet / this.trailLength;
+      const opacity = 1 - distanceFromBullet / this.trailPositions.length;
       this.trailCtx.globalAlpha = opacity;
       this.trailCtx.strokeStyle = trailGradient;
       this.trailCtx.globalCompositeOperation = "lighter";
       this.trailCtx.lineTo(position.x, position.y);
     });
-    this.trailCtx.lineWidth = 1.8;
+    this.trailCtx.lineWidth = 8;
     this.trailCtx.stroke();
 
     if (this.trailPositions.length > this.trailLength) {

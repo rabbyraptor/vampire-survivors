@@ -1,10 +1,11 @@
 <template>
   <div class="game-wrapper">
     <div class="ui">
-      <h1 class="fps-counter">{{ fpsAverage }} fps</h1>
+      <p class="fps-counter">fps {{ fpsAverage }}</p>
+      <p class="fps-counter">movement speed {{ player.stats.movementSpeed }}</p>
+      <p class="fps-counter">attack speed {{ player.stats.shootingSpeed }}</p>
       </div>
     <div class="game" ref="game">
-      <!-- <div class="player" :style="{ left: playerPosition.x + 'px', top: playerPosition.y + 'px' }"></div> -->
       <ObjPlayer />
       <ObjBullet
       v-for="(bullet) in bullets"
@@ -140,19 +141,21 @@ export default {
   filter: brightness(75%) grayscale(20%);
 }
 .ui {
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
 }
 .game {
   position: relative;
 }
 .fps-counter {
-  position: absolute;
-  top: 0;
-  right: 0;
   font-weight: normal;
   font-size: 15px;
   color: #333;
-  padding: 2px 4px;
 }
 /* .vampire {
   background-color: red;

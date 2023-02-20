@@ -39,6 +39,8 @@ const actions = {
       speed: player.stats.projectileSpeed,
       xVelocity,
       yVelocity,
+      visibility: true,
+      penetrationsLeft: player.stats.penetrationsLeft
     };
     commit("shootBullet", bullet);
   },
@@ -70,7 +72,7 @@ const actions = {
 
     // Update the position of each bullet
     bullets.forEach(async (bullet) => {
-      if (!bullet.target) {
+      if (!bullet.target || !bullet.visibility) {
         return;
       }
 
@@ -78,16 +80,19 @@ const actions = {
       bullet.y += bullet.yVelocity;
 
       // Check for collisions with enemies
-      enemies.forEach((enemy) => {
+      enemies.forEach(async (enemy) => {
         if(enemy.health < 1) { return }
         const distance = Math.sqrt(
           (bullet.x - enemy.x) ** 2 + (bullet.y - enemy.y) ** 2
         );
         if (distance < 20) {
-          // Remove the bullet
-          commit("destroyBullet", bullet);
+          bullet.penetrationsLeft--
+          if(bullet.penetrationsLeft < 1){
+            // Remove the bullet
+            commit("destroyBullet", bullet);
+          }
           // Damage and enemy
-          dispatch("globalEnemies/damageEnemy", enemy.id, { root: true }); //
+          return dispatch("globalEnemies/damageEnemy", enemy.id, { root: true }); //
 
           // Increase the score
           // this.score += 10;
@@ -112,9 +117,12 @@ const mutations = {
     state.bullets.push(bullet);
   },
   destroyBullet(state, bullet) {
-    state.bullets = state.bullets.filter(
-      (bulletOnScreen) => bulletOnScreen.id !== bullet.id
-    );
+    bullet.visibility = false
+    setTimeout(() => {
+      state.bullets = state.bullets.filter(
+        (bulletOnScreen) => bulletOnScreen.id !== bullet.id
+      );
+    }, 500);
   },
   setTarget(state, target) {
     state.target = target;

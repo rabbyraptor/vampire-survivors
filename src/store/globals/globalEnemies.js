@@ -1,9 +1,9 @@
 const state = () => ({
   enemies: [],
   settings: {
-    maxEnemies: 10,
+    maxEnemies: 20,
     spawnInterval: null,
-    spawnSpeed: 1000,
+    spawnSpeed: 1600,
   },
   enemyId: 0,
   enemyTypes: [

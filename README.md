@@ -1,24 +1,9 @@
-# vampire-survivors
+# Vampire Survivors clone
 
-## Project setup
-```
-npm install
-```
+Made with Vue.js as a prototype / proof of concept.  
+Available here: [https://silver-choux-7963a3.netlify.app/](https://silver-choux-7963a3.netlify.app/)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Controls
+Use WASD on your keyboard to control player movement.
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![image](https://github.com/rabbyraptor/vampire-survivors/assets/55085876/6f170762-8537-4f02-8b0d-4686fa4bf603)
